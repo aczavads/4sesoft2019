@@ -39,7 +39,11 @@ public class Colheitadeira {
 	}
 	
 	public void setFazenda(Fazenda fazenda) {
+		if (this.fazenda != null && this.fazenda != fazenda) {
+			this.fazenda.removerColheitadeira(this);
+		}
 		this.fazenda = fazenda;
+		this.fazenda.adicionarColheitadeira(this);
 	}
 
 }

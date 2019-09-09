@@ -11,8 +11,15 @@ public class Fazenda {
 	private List<Colheitadeira> colheitadeiras = new ArrayList<Colheitadeira>();
 	
 	
+	public void removerColheitadeira(Colheitadeira colheitadeira) {
+		this.colheitadeiras.remove(colheitadeira);		
+	}
+	
 	public void adicionarColheitadeira(Colheitadeira colheitadeira) {
-		this.colheitadeiras.add(colheitadeira);
+		if (!this.colheitadeiras.contains(colheitadeira)) { 
+			this.colheitadeiras.add(colheitadeira);
+			colheitadeira.setFazenda(this);
+		}
 	}
 	
 	public void adicionarCultivar(Cultivar cultivar) {
@@ -54,5 +61,6 @@ public class Fazenda {
 		//double areaEmHectares = 0.00;
 		return areaEmHectares;
 	}
+
 
 }
