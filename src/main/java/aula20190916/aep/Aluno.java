@@ -8,5 +8,13 @@ public class Aluno {
 		this.ra = ra;
 		this.nome = nome;
 	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public String getRa() {
+		return ra;
+	}
 
 }

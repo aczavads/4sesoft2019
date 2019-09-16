@@ -20,18 +20,53 @@ public class App {
 		Disciplina programacaoOO = new Disciplina("Programação Orientada a Objetos");
 		
 		conceitos.add(new Conceito(1, new Nota(8.5), ana,bancoII));
+		conceitos.add(new Conceito(3, new Nota(9.8), josias, bancoII));
 		conceitos.add(new Conceito(2, new Nota(9.5), ana,programacaoOO));		
-		conceitos.add(new Conceito(3, new Nota(1.8), josias, bancoII));
-		conceitos.add(new Conceito(4, new Nota(6.5), josias, programacaoOO));
 		conceitos.add(new Conceito(5, new Nota(6.0), jorge, bancoII));
+		conceitos.add(new Conceito(4, new Nota(10.0), josias, programacaoOO));
 		conceitos.add(new Conceito(6, new Nota(2.5), jorge, programacaoOO));
 		
 		System.out.println("A nota média é: " + calcularNotaMédia(conceitos));
+		System.out.println("O melhor aluno(a) é: " + identificarMelhorAluno(conceitos).getNome());
 		
 		
 		
 		System.out.println("Foi.");		
 	}
+	private static Aluno identificarMelhorAluno(List<Conceito> conceitos) {
+		List<Aluno> alunos = new ArrayList<Aluno>();
+		List<Double> totalDasNotas = new ArrayList<Double>();
+		
+		for (Conceito conceito: conceitos) {
+			Aluno aluno = conceito.getAluno();
+			int posicaoAluno = alunos.indexOf(aluno);
+			if (posicaoAluno == -1) {
+				alunos.add(aluno);
+				totalDasNotas.add(conceito.getNota().getValor());
+			} else {
+				double nota = totalDasNotas.get(posicaoAluno);
+				totalDasNotas.remove(posicaoAluno);
+				nota += conceito.getNota().getValor();
+				totalDasNotas.add(posicaoAluno, nota);
+			}
+		}		
+		return recuperarAlunoComMaiorTotalDeNotas(alunos, totalDasNotas);
+	}
+	
+	private static Aluno recuperarAlunoComMaiorTotalDeNotas(List<Aluno> alunos, List<Double> totalDasNotas) {
+		Aluno melhor;
+		double maiorNota = -1;
+		int posicaoDaMaior = -1;
+		for (int i=0; i<totalDasNotas.size();i++) {
+			if (totalDasNotas.get(i) > maiorNota) {
+				maiorNota = totalDasNotas.get(i);
+				posicaoDaMaior = i;
+			}
+		}		
+		melhor = alunos.get(posicaoDaMaior);
+		return melhor;
+	}
+	
 	private static double calcularNotaMédia(List<Conceito> conceitos) {
 		double média = 0.00;
 		
