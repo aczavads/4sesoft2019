@@ -23,7 +23,7 @@ public class App {
 		}
 		//Exemplo de template parameter: forma de parametrizar uma classe (deve ser previsto na implementação da classe)
 		ArrayList<Integer> listaDeNomes = new ArrayList<Integer>();
-		listaDeNomes.add("Fulano");
+		//listaDeNomes.add("Fulano");
 		listaDeNomes.add(110);
 		
 	}

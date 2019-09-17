@@ -1,7 +1,10 @@
 package aula20190916.aep;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class App {
 
@@ -34,6 +37,32 @@ public class App {
 		System.out.println("Foi.");		
 	}
 	private static Aluno identificarMelhorAluno(List<Conceito> conceitos) {
+		Map<Aluno, Double> mapaDeTotalDaNotaPorAluno = new HashMap<Aluno, Double>();
+		for (Conceito conceito : conceitos) {
+			Aluno aluno = conceito.getAluno();
+			double nota = conceito.getNota().getValor();
+			if (mapaDeTotalDaNotaPorAluno.containsKey(aluno)) {
+				double total = mapaDeTotalDaNotaPorAluno.get(aluno);
+				mapaDeTotalDaNotaPorAluno.put(aluno, total + nota);
+			} else {
+				mapaDeTotalDaNotaPorAluno.put(aluno, nota);
+			}
+		}
+		
+		Double maior = 0.00;
+		Aluno melhor = null;
+		for (Entry<Aluno, Double> elemento : mapaDeTotalDaNotaPorAluno.entrySet()) {
+			if (elemento.getValue() > maior) {
+				maior = elemento.getValue();
+				melhor = elemento.getKey();
+			}
+		}
+		
+		return melhor;
+	}
+	
+	/*	
+	private static Aluno identificarMelhorAluno(List<Conceito> conceitos) {
 		List<Aluno> alunos = new ArrayList<Aluno>();
 		List<Double> totalDasNotas = new ArrayList<Double>();
 		
@@ -52,6 +81,7 @@ public class App {
 		}		
 		return recuperarAlunoComMaiorTotalDeNotas(alunos, totalDasNotas);
 	}
+	*/
 	
 	private static Aluno recuperarAlunoComMaiorTotalDeNotas(List<Aluno> alunos, List<Double> totalDasNotas) {
 		Aluno melhor;
