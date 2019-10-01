@@ -29,6 +29,7 @@ public class TestesDaBiblioteca {
 	@Test
 	public void testarSeNomeBibliotecaEhNulo() {
 		Biblioteca uniCesumarSede = new Biblioteca("UniCesumar Campus Sede");
+		
 		assertNotNull("Nome da biblioteca não pode ser nulo!", uniCesumarSede.getNome());
 	}
 
