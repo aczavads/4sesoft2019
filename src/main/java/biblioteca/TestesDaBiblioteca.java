@@ -20,17 +20,35 @@ public class TestesDaBiblioteca {
 		assertTrue("Deveria ter o Acervo Sede Maringá!", uniCesumarSede.getAcervos().contains(acervo01));
 		assertTrue("Deveria ter o Acervo Medicina", uniCesumarSede.getAcervos().contains(acervo02));
 	}
-	
+
+	@Test
+	public void testarBibliotecaRepository() {
+		Biblioteca uniCesumar = new Biblioteca("Biblioteca UniCesumar Campus Sede");		
+		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
+		Biblioteca fcv = new Biblioteca("Biblioteca FCV UEM");
+		
+		BibliotecaRepository repo = new BibliotecaRepository();
+		repo.truncate();
+		repo.salvar(uniCesumar);
+		repo.salvar(uem);
+		
+		assertEquals(2, repo.encontrarTodas().size());
+		
+		repo.salvar(fcv);
+		assertEquals(3, repo.encontrarTodas().size());
+	}
+
 	@Test(expected=RuntimeException.class)
 	public void testarExceçãoNomeNuloAoConstruirBiblioteca() {
 		Biblioteca nova = new Biblioteca(null);		
 	}
 	
 	@Test
-	public void testarSeNomeBibliotecaEhNulo() {
+	public void testarSeNomeBibliotecaEstahCorreto() {
 		Biblioteca uniCesumarSede = new Biblioteca("UniCesumar Campus Sede");
 		
 		assertNotNull("Nome da biblioteca não pode ser nulo!", uniCesumarSede.getNome());
+		assertEquals("UniCesumar Campus Sede", uniCesumarSede.getNome());
 	}
 
 
