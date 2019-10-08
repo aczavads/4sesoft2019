@@ -1,6 +1,8 @@
 package biblioteca;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -20,14 +22,14 @@ public class TestesDaBiblioteca {
 		assertTrue("Deveria ter o Acervo Sede Maringá!", uniCesumarSede.getAcervos().contains(acervo01));
 		assertTrue("Deveria ter o Acervo Medicina", uniCesumarSede.getAcervos().contains(acervo02));
 	}
-
+/*
 	@Test
-	public void testarBibliotecaRepository() {
+	public void testarBibliotecaRepositoryFile() {
 		Biblioteca uniCesumar = new Biblioteca("Biblioteca UniCesumar Campus Sede");		
 		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
 		Biblioteca fcv = new Biblioteca("Biblioteca FCV UEM");
 		
-		BibliotecaRepository repo = new BibliotecaRepository();
+		BibliotecaRepository repo = new BibliotecaRepositoryFile();
 		repo.truncate();
 		repo.salvar(uniCesumar);
 		repo.salvar(uem);
@@ -37,7 +39,41 @@ public class TestesDaBiblioteca {
 		repo.salvar(fcv);
 		assertEquals(3, repo.encontrarTodas().size());
 	}
-
+*/	
+	@Test
+	public void testarBibliotecaRepositoryAleatório() {
+		Biblioteca uniCesumar = new Biblioteca("Biblioteca UniCesumar Campus Sede");		
+		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
+		Biblioteca fcv = new Biblioteca("Biblioteca FCV UEM");
+		
+		BibliotecaRepository repo = BibliotecaRepository.createInstance();
+		repo.truncate();
+		repo.salvar(uniCesumar);
+		repo.salvar(uem);
+		
+		assertEquals(2, repo.encontrarTodas().size());
+		
+		repo.salvar(fcv);
+		assertEquals(3, repo.encontrarTodas().size());
+	}
+/*	
+	@Test
+	public void testarBibliotecaRepositoryDatabase() {
+		Biblioteca uniCesumar = new Biblioteca("Biblioteca UniCesumar Campus Sede");		
+		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
+		Biblioteca fcv = new Biblioteca("Biblioteca FCV UEM");
+		
+		BibliotecaRepository repo = new BibliotecaRepositoryDatabase();
+		repo.truncate();
+		repo.salvar(uniCesumar);
+		repo.salvar(uem);
+		
+		assertEquals(2, repo.encontrarTodas().size());
+		
+		repo.salvar(fcv);
+		assertEquals(3, repo.encontrarTodas().size());
+	}
+*/
 	@Test(expected=RuntimeException.class)
 	public void testarExceçãoNomeNuloAoConstruirBiblioteca() {
 		Biblioteca nova = new Biblioteca(null);		
