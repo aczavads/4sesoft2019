@@ -7,6 +7,8 @@ public interface BibliotecaRepository {
 	void truncate();
 	void salvar(Biblioteca biblioteca);
 	List<Biblioteca> encontrarTodas();
+	
+	
 	static BibliotecaRepository createInstance() {
 		final boolean momentoEhPar = System.currentTimeMillis()%2 == 0;
 		if (momentoEhPar) {
@@ -15,5 +17,6 @@ public interface BibliotecaRepository {
 			return new BibliotecaRepositoryFile();
 		}
 	}
+	
 
 }

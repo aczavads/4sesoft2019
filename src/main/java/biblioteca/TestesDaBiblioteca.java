@@ -41,10 +41,29 @@ public class TestesDaBiblioteca {
 	}
 */	
 	@Test
+	public void testarExclusãoDeBilioteca() {
+		Biblioteca uniCesumar = new Biblioteca("Biblioteca UniCesumar Campus Sede");		
+		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
+		Biblioteca fcv = new Biblioteca("Biblioteca FCV");
+		
+		BibliotecaRepository repo = BibliotecaRepository.createInstance();
+		repo.truncate();
+		repo.salvar(uniCesumar);
+		repo.salvar(uem);
+		repo.salvar(fcv);		
+		assertEquals(3, repo.encontrarTodas().size());
+		
+		repo.excluirPeloNome("Biblioteca Central UEM");
+		repo.excluirPeloNome("Biblioteca FCV");
+		assertEquals(1, repo.encontrarTodas().size());
+		
+	}
+
+	@Test
 	public void testarBibliotecaRepositoryAleatório() {
 		Biblioteca uniCesumar = new Biblioteca("Biblioteca UniCesumar Campus Sede");		
 		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
-		Biblioteca fcv = new Biblioteca("Biblioteca FCV UEM");
+		Biblioteca fcv = new Biblioteca("Biblioteca FCV");
 		
 		BibliotecaRepository repo = BibliotecaRepository.createInstance();
 		repo.truncate();
