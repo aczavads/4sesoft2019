@@ -3,13 +3,16 @@ package biblioteca;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Biblioteca implements Serializable {
+	private String id;
 	private String nome;
 	private List<Acervo> acervos = new ArrayList<Acervo>();
 	
 	
 	public Biblioteca(String nome) {
+		id = UUID.randomUUID().toString();
 		if (nome == null) {
 			throw new RuntimeException("Nome não pode ser nulo!");
 		}
@@ -26,6 +29,10 @@ public class Biblioteca implements Serializable {
 	
 	public String getNome() {
 		return nome;
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 }

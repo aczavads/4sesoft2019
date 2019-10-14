@@ -46,6 +46,9 @@ public class TestesDaBiblioteca {
 		Biblioteca uem = new Biblioteca("Biblioteca Central UEM");		
 		Biblioteca fcv = new Biblioteca("Biblioteca FCV");
 		
+		String idDaUEM = uem.getId();
+		String idDaFCV = fcv.getId();
+		
 		BibliotecaRepository repo = BibliotecaRepository.createInstance();
 		repo.truncate();
 		repo.salvar(uniCesumar);
@@ -53,8 +56,10 @@ public class TestesDaBiblioteca {
 		repo.salvar(fcv);		
 		assertEquals(3, repo.encontrarTodas().size());
 		
-		repo.excluirPeloNome("Biblioteca Central UEM");
-		repo.excluirPeloNome("Biblioteca FCV");
+		//repo.excluirPeloNome("Biblioteca Central UEM");
+		//repo.excluirPeloNome("Biblioteca FCV");
+		repo.excluirPeloId(idDaFCV);
+		repo.excluirPeloId(idDaUEM);
 		assertEquals(1, repo.encontrarTodas().size());
 		
 	}
@@ -71,9 +76,12 @@ public class TestesDaBiblioteca {
 		repo.salvar(uem);
 		
 		assertEquals(2, repo.encontrarTodas().size());
+		assertEquals(uniCesumar.getId(), repo.encontrarPeloId(uniCesumar.getId()).getId());
+		assertEquals(uem.getId(), repo.encontrarPeloId(uem.getId()).getId());
 		
 		repo.salvar(fcv);
 		assertEquals(3, repo.encontrarTodas().size());
+		assertEquals(fcv.getId(), repo.encontrarPeloId(fcv.getId()).getId());
 	}
 /*	
 	@Test

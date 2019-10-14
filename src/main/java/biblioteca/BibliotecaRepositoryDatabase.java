@@ -12,7 +12,7 @@ public class BibliotecaRepositoryDatabase implements BibliotecaRepository {
 	private Connection conn;
 
 	public BibliotecaRepositoryDatabase() {
-		System.out.println("Inicializando um repository DATABASE!");
+		//System.out.println("Inicializando um repository DATABASE!");
 		try {
 			// java database connectivity
 			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/4sesoft2019", "postgres",
@@ -63,4 +63,23 @@ public class BibliotecaRepositoryDatabase implements BibliotecaRepository {
 		return todas;
 	}
 
+	@Override
+	public void excluirPeloNome(String nome) {
+		try {
+			final String delete = "delete from biblioteca where nome = ?";
+			PreparedStatement ps = conn.prepareStatement(delete);
+			ps.setString(1, nome);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 }
+
+
+
+
+
+

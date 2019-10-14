@@ -7,6 +7,7 @@ public interface BibliotecaRepository {
 	void truncate();
 	void salvar(Biblioteca biblioteca);
 	List<Biblioteca> encontrarTodas();
+	void excluirPeloNome(String nome);
 	
 	
 	static BibliotecaRepository createInstance() {

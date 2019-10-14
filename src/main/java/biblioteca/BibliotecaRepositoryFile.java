@@ -7,12 +7,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BibliotecaRepositoryFile implements BibliotecaRepository {
 	private static final String NOME_DO_ARQUIVO = "d:\\arthur\\biblioteca.dat";
 
 	public BibliotecaRepositoryFile() {
-		System.out.println("Inicializando um repository <<FILE>>!");
+		//System.out.println("Inicializando um repository <<FILE>>!");
 	}
 
 	public void truncate() {
@@ -58,6 +59,30 @@ public class BibliotecaRepositoryFile implements BibliotecaRepository {
 			return new ArrayList<>();
 			// e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void excluirPeloNome(String nome) {
+		List<Biblioteca> dados;
+		try {
+			dados = carregar();
+
+			
+			Biblioteca aux = null;
+			for (Biblioteca biblioteca : dados) {
+				if (biblioteca.getNome().equals(nome)) {
+					aux = biblioteca;
+				}
+			}
+			dados.remove(aux);
+						
+			
+			//dados = dados.stream().filter( b -> !b.getNome().equals(nome) ).collect(Collectors.toList());
+			
+		} catch (Exception e) {
+			dados = new ArrayList<>();
+		}
+		persistir(dados);
 	}
 
 }
