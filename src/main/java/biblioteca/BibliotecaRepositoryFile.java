@@ -62,7 +62,7 @@ public class BibliotecaRepositoryFile implements BibliotecaRepository {
 	}
 
 	@Override
-	public void excluirPeloNome(String nome) {
+	public void excluirPeloId(String id) {
 		List<Biblioteca> dados;
 		try {
 			dados = carregar();
@@ -70,7 +70,7 @@ public class BibliotecaRepositoryFile implements BibliotecaRepository {
 			
 			Biblioteca aux = null;
 			for (Biblioteca biblioteca : dados) {
-				if (biblioteca.getNome().equals(nome)) {
+				if (biblioteca.getId().equals(id)) {
 					aux = biblioteca;
 				}
 			}
@@ -83,6 +83,21 @@ public class BibliotecaRepositoryFile implements BibliotecaRepository {
 			dados = new ArrayList<>();
 		}
 		persistir(dados);
+	}
+
+	@Override
+	public Biblioteca encontrarPeloId(String id) {
+		try {
+			List<Biblioteca> dados = carregar();			
+			for (Biblioteca biblioteca : dados) {
+				if (biblioteca.getId().equals(id)) {
+					return biblioteca;
+				}
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

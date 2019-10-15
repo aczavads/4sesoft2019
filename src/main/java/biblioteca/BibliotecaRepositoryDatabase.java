@@ -18,7 +18,7 @@ public class BibliotecaRepositoryDatabase implements BibliotecaRepository {
 			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/4sesoft2019", "postgres",
 					"unicesumar");
 			conn.createStatement().executeUpdate(
-					"create table if not exists biblioteca (" + "nome varchar(255) not null primary key" + ")");
+					"create table if not exists biblioteca (id varchar(36) not null primary key, nome varchar(255) not null)");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,9 +38,10 @@ public class BibliotecaRepositoryDatabase implements BibliotecaRepository {
 		try {
 			// final String insert = "insert into biblioteca (nome) values (" +
 			// biblioteca.getNome() + ")";
-			final String insert = "insert into biblioteca (nome) values (?)";
+			final String insert = "insert into biblioteca (id, nome) values (?, ?)";
 			PreparedStatement ps = conn.prepareStatement(insert);
-			ps.setString(1, biblioteca.getNome());
+			ps.setString(1, biblioteca.getId());
+			ps.setString(2, biblioteca.getNome());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,15 +65,32 @@ public class BibliotecaRepositoryDatabase implements BibliotecaRepository {
 	}
 
 	@Override
-	public void excluirPeloNome(String nome) {
+	public void excluirPeloId(String id) {
 		try {
-			final String delete = "delete from biblioteca where nome = ?";
+			final String delete = "delete from biblioteca where id = ?";
 			PreparedStatement ps = conn.prepareStatement(delete);
-			ps.setString(1, nome);
+			ps.setString(1, id);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Biblioteca encontrarPeloId(String id) {
+		Biblioteca encontrada = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("select nome from biblioteca where id = ?");
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				final String nome = rs.getString("nome");
+				encontrada = new Biblioteca(id, nome);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return encontrada;
 	}
 	
 

@@ -11,6 +11,11 @@ public class Biblioteca implements Serializable {
 	private List<Acervo> acervos = new ArrayList<Acervo>();
 	
 	
+	public Biblioteca(String id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
+	
 	public Biblioteca(String nome) {
 		id = UUID.randomUUID().toString();
 		if (nome == null) {
