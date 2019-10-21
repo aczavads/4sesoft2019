@@ -11,6 +11,39 @@ public class Biblioteca implements Serializable {
 	private List<Acervo> acervos = new ArrayList<Acervo>();
 	
 	
+	
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	public boolean equals(Object outro) {
+		if (outro == null) {
+			return false;
+		}
+		if (this == outro) {
+			return true;
+		}
+		if (!(outro instanceof Biblioteca)) {
+			return false;
+		}
+		
+		//Coerção de referências ou type casting (cast)
+		Biblioteca outraBiblioteca = (Biblioteca) outro;
+		
+		if (this.id.equals(outraBiblioteca.id) && this.nome.equals(outraBiblioteca.nome)) {
+			return true;
+		}		
+		
+		return false;
+	}
+	
 	public Biblioteca(String id, String nome) {
 		this.id = id;
 		this.nome = nome;
