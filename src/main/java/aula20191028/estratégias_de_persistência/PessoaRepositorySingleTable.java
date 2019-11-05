@@ -21,7 +21,7 @@ public class PessoaRepositorySingleTable implements PessoaRepository {
 	}
 
 	private void createTable() {
-		final String createTable = "create table if not exists pessoa (" + " id varchar(36) not null primary key,"
+		final String createTable = "create table if not exists pessoa_single_table (" + " id varchar(36) not null primary key,"
 				+ " discriminator varchar(36) not null," + " nome varchar(255) not null," + " rg varchar(25),"
 				+ " cpf varchar(25)," + " telefone_fixo varchar(25)," + " telefone_movel varchar(25),"
 				+ " razao_social varchar(255)," + " cnpj varchar(25)," + " inscricao_estadual varchar(25)" + ")";
@@ -37,7 +37,7 @@ public class PessoaRepositorySingleTable implements PessoaRepository {
 		try {
 			conn.setAutoCommit(false);
 			if (p instanceof Fisica) {
-				final String insert = "insert into pessoa (id, discriminator, nome, rg, cpf, telefone_fixo, telefone_movel) values (?,?,?,?,?,?,?)";
+				final String insert = "insert into pessoa_single_table (id, discriminator, nome, rg, cpf, telefone_fixo, telefone_movel) values (?,?,?,?,?,?,?)";
 				final PreparedStatement ps = conn.prepareStatement(insert);
 
 				ps.setString(1, p.getId());
@@ -53,7 +53,7 @@ public class PessoaRepositorySingleTable implements PessoaRepository {
 				ps.executeUpdate();
 				ps.close();
 			} else {
-				final String insert = "insert into pessoa (id, discriminator, nome, cnpj, inscricao_estadual, razao_social, telefone_fixo, telefone_movel) values (?,?,?,?,?,?,?,?)";
+				final String insert = "insert into pessoa_single_table (id, discriminator, nome, cnpj, inscricao_estadual, razao_social, telefone_fixo, telefone_movel) values (?,?,?,?,?,?,?,?)";
 				final PreparedStatement ps = conn.prepareStatement(insert);
 
 				ps.setString(1, p.getId());
@@ -95,7 +95,7 @@ public class PessoaRepositorySingleTable implements PessoaRepository {
 	@Override
 	public void truncate() {
 		try {
-			this.conn.createStatement().execute("truncate table pessoa");
+			this.conn.createStatement().execute("truncate table pessoa_single_table");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,7 @@ public class PessoaRepositorySingleTable implements PessoaRepository {
 	@Override
 	public Pessoa encontrarPeloId(String id) {
 		try {
-			final String query = "select * from pessoa where id = ?";
+			final String query = "select * from pessoa_single_table where id = ?";
 			final PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, id);
 

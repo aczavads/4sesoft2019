@@ -21,7 +21,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 	}
 
 	private void createTable() {
-		final String createTableFisica = "create table if not exists fisica (" 
+		final String createTableFisica = "create table if not exists fisica_table_per_class (" 
 				+ " id varchar(36) not null primary key,"
 				+ " nome varchar(255) not null," 
 				+ " rg varchar(25) not null,"
@@ -30,7 +30,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 				+ " telefone_movel varchar(25)"
 				+ ")";
 		
-		final String createTableJuridica = "create table if not exists juridica (" 
+		final String createTableJuridica = "create table if not exists juridica_table_per_class (" 
 				+ " id varchar(36) not null primary key,"
 				+ " nome varchar(255) not null,"  
 				+ " telefone_fixo varchar(25)," 
@@ -55,7 +55,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 		try {
 			conn.setAutoCommit(false);
 			if (p instanceof Fisica) {
-				final String insert = "insert into fisica (id, nome, rg, cpf, telefone_fixo, telefone_movel) values (?,?,?,?,?,?)";
+				final String insert = "insert into fisica_table_per_class (id, nome, rg, cpf, telefone_fixo, telefone_movel) values (?,?,?,?,?,?)";
 				final PreparedStatement ps = conn.prepareStatement(insert);
 
 				ps.setString(1, p.getId());
@@ -70,7 +70,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 				ps.executeUpdate();
 				ps.close();
 			} else {
-				final String insert = "insert into juridica (id, nome, cnpj, inscricao_estadual, razao_social, telefone_fixo, telefone_movel) values (?,?,?,?,?,?,?)";
+				final String insert = "insert into juridica_table_per_class (id, nome, cnpj, inscricao_estadual, razao_social, telefone_fixo, telefone_movel) values (?,?,?,?,?,?,?)";
 				final PreparedStatement ps = conn.prepareStatement(insert);
 
 				ps.setString(1, p.getId());
@@ -114,7 +114,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 	@Override
 	public void truncate() {
 		try {
-			this.conn.createStatement().execute("truncate table fisica; truncate table juridica;");
+			this.conn.createStatement().execute("truncate table fisica_table_per_class; truncate table juridica_table_per_class;");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -130,9 +130,9 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 	public Pessoa encontrarPeloId(String id) {
 		try {
 			final String query = "select discriminator from ("
-					+ "select 'fisica' as discriminator from fisica where fisica.id = ? "
+					+ "select 'fisica' as discriminator from fisica_table_per_class f where f.id = ? "
 					+ "union all "
-					+ "select 'juridica' as discriminator from juridica where juridica.id = ?"
+					+ "select 'juridica' as discriminator from juridica_table_per_class j where j.id = ?"
 					+ ") unidas";
 			final PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, id);
@@ -142,7 +142,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 			if (rs.next()) {
 				final String discriminator = rs.getString("discriminator");
 				if (discriminator.equalsIgnoreCase("FISICA")) {
-					PreparedStatement psFisica = conn.prepareStatement("select * from fisica where id = ?");
+					PreparedStatement psFisica = conn.prepareStatement("select * from fisica_table_per_class where id = ?");
 					psFisica.setString(1, id);
 					ResultSet rsFisica = psFisica.executeQuery();
 					if (rsFisica.next()) {
@@ -156,7 +156,7 @@ public class PessoaRepositoryTablePerClass implements PessoaRepository {
 					}
 					return null;
 				} else if (discriminator.equalsIgnoreCase("JURIDICA")) {
-					PreparedStatement psJuridica = conn.prepareStatement("select * from juridica where id = ?");
+					PreparedStatement psJuridica = conn.prepareStatement("select * from juridica_table_per_class where id = ?");
 					psJuridica.setString(1, id);
 					ResultSet rsJuridica = psJuridica.executeQuery();
 					if (rsJuridica.next()) {
