@@ -136,5 +136,31 @@ public class TestesDaBiblioteca {
 		assertNotNull("Nome da biblioteca não pode ser nulo!", uniCesumarSede.getNome());
 		assertEquals("UniCesumar Campus Sede", uniCesumarSede.getNome());
 	}
+	
+	@Test 
+	public void testarIncorporaçãoDeItemAoAcervo() {
+		Biblioteca uniCesumarSede = new Biblioteca("UniCesumar Campus Sede");
+		
+		Acervo acervo01 = new Acervo("Acervo Sede Maringá");
+		uniCesumarSede.addAcervo(acervo01);
+		
+		Local c2p1 = new Local("C2P1");
+		acervo01.incorporar(new Livro("Object Oriented Analysis and Design","Grady Booch", 1999), c2p1);
+		acervo01.incorporar(new Livro("UML Applied", "Grady Booch", 2010), c2p1);
+		acervo01.incorporar(new Livro("UML Applied", "Outro Autor de Albuquerque", 2016), c2p1);
+		
+		assertEquals(1, acervo01.pesquisarPorTitulo("Object Oriented Analysis and Design").size());
+		assertEquals(2, acervo01.pesquisarPorTitulo("UML Applied").size());
+		
+		assertEquals(1, acervo01.pesquisarPorAutor("Outro Autor de Albuquerque").size());
+		assertEquals(2, acervo01.pesquisarPorAutor("Grady Booch").size());
+		
+	}
+	
 
 }
+
+
+
+
+
